@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <title>Design2Java</title>
+    <style>
+      
+      .bottom-panel {
+        width: 50%;
+        height: 100%;
+      }
+      
+      .bottom-panel > textarea {
+        width: 100%;
+        height: 100%;
+      }
+      
+      #preview {
+        width: 100%;
+        height: 50%;
+      }
+      
+      #main-layout {
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+      }
+      #bottom-row {
+        display: flex;
+        flex-direction: row;
+        height: 50%;
+      }
+      
+    </style>
+    <script src="component_bundle.js"></script>
+  </head>
+  <body>
+    <div id="main-layout">
+      <div id="preview"></div>
+      <div id="bottom-row">
+        <div class="bottom-panel">
+          <textarea id="html-input"></textarea>
+        </div>
+        <div class="bottom-panel">
+            <textarea id="java"></textarea>
+        </div>
+      </div>
+    </div>
+    <script type="module"> 
+     
+      import { XMLToATIR } from "./xml.js";
+      import { modelToJava } from "./java.js";
+      
+      const el = document.getElementById('html-input');
+      el.oninput = event => {
+      
+        const preview = document.getElementById('preview');
+        preview.innerHTML = el.value;
+        const target = document.getElementById('java');
+        const code = XMLToATIR(el.value);
+        target.value =  modelToJava("VaadinComponent", "", "my.package", code);
+        
+      }
+    </script>
+  </body>
+</html>
